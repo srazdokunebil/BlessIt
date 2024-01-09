@@ -541,11 +541,37 @@ end
 
 --region    ---- CLASS
 
+---[ vr.pal.castBlessingOfFreedom ]--------------------------------------------
+function vr.pal.castBlessingOfFreedom()
+    CastSpellByName("Blessing of Freedom")
+end
 
+---[ vr.pal.castBlessingOfProtection ]-----------------------------------------
+function vr.pal.castBlessingOfProtection()
+    CastSpellByName("Blessing of Protection")
+end
 
+---[ vr.pal.castDivineFavor ]--------------------------------------------------
+function vr.pal.castDivineFavor()
+    CastSpellByName("Divine Favor")
+end
 
----[ vr.api.CrusaderStrikeStacks ]-------------------------------------------------
--- TODO
+---[ vr.pal.castHammerOfJustice ]----------------------------------------------
+function vr.pal.castHammerOfJustice()
+    CastSpellByName("Hammer of Justice")
+end
+
+---[ vr.pal.castHolyShock ]----------------------------------------------------
+function vr.pal.castHolyShock()
+    CastSpellByName("Holy Shock")
+end
+
+---[ vr.pal.castLayOnHands ]---------------------------------------------------
+function vr.pal.castLayOnHands()
+    CastSpellByName("Lay on Hands")
+end
+
+---[ vr.pal.CrusaderStrikeStacks ]---------------------------------------------
 function vr.pal.CrusaderStrikeStacks(unit, stacks)
 
 	if not UnitExists(unit) then
@@ -565,7 +591,113 @@ function vr.pal.CrusaderStrikeStacks(unit, stacks)
 	end
 end
 
+---[ vr.pal.isBlessingOfProtectionActive ]-------------------------------------
+function vr.pal.isBlessingOfProtectionActive()
+    return vr.api.HasBuff('target', "Blessing of Protection")
+	-- local SpellName = LOCALIZATION_ZORLEN.BlessingOfProtection
+	-- return Zorlen_checkBuffByName(SpellName)
+end
+
+---[ vr.pal.isBoFReady ]-------------------------------------------------------
+function vr.pal.isBoFReady()
+	if vr.api.IsSpellReady("Blessing of Freedom") then
+		return true;
+	end
+	return false;
+end
+
+--Added by Dispatch
+function vr.pal.isBoPReady()
+	if vr.api.IsSpellReady("Blessing of Protection") then
+		return true;
+	end
+	return false;
+end
+
+---[ vr.pal.isDivineFavorActive ]----------------------------------------------
+function vr.pal.isDivineFavorActive()
+    return vr.api.HasBuff('player', "Divine Favor")
+end
+
+---[ vr.pal.isDivineFavorReady ]-----------------------------------------------
+function vr.pal.isDivineFavorReady()
+	if vr.api.IsSpellReady("Divine Favor") then
+		return true;
+	end
+	return false;
+end
+
+---[ vr.pal.isExorcismReady ]--------------------------------------------------
+function vr.pal.isExorcismReady()
+	if vr.api.IsSpellReady("Exorcism") then
+		return true;
+	end
+	return false;
+end
+
+---[ vr.pal.isHammerOfJusticeUsable ]------------------------------------------
+function vr.pal.isHammerOfJusticeUsable()
+end
+
+---[ vr.pal.isHolyShockReady ]-------------------------------------------------
+function vr.pal.isHolyShockReady()
+	if vr.api.IsSpellReady("Holy Shock") then
+		return true;
+	end
+	return false;
+end
+
+---[ vr.pal.isHammerOfJusticeReady ]-------------------------------------------
+function vr.pal.isHammerOfJusticeReady()
+	if vr.api.IsSpellReady("Hammer of Justice") then
+		return true;
+	end
+	return false;
+end
+
+---[ vr.pal.isHammerOfJusticeReady ]-------------------------------------------
+function vr.pal.isHammerOfJusticeUsable()
+	for i = 1, 120 do
+		local t = GetActionTexture(i)
+		if t then
+			if string.find(t, "Spell_Holy_SealOfMight") then
+				Ability_Hammer_of_Justice = i
+			end
+		end
+	end
+	if Ability_Hammer_of_Justice and IsActionInRange(Ability_Hammer_of_Justice) == 1 then
+		return true
+	end
+	return false
+end
+
+---[ vr.pal.isHolyShockUsable ]------------------------------------------------
+function vr.pal.isHolyShockUsable()
+	for i = 1, 120 do
+		local t = GetActionTexture(i)
+		if t then
+			if string.find(t, Textures['Holy Shock']) then
+				Ability_Holy_Shock = i
+			end
+		end
+	end
+	if Ability_Holy_Shock and IsActionInRange(Ability_Holy_Shock) == 1 then
+		return true
+	end
+	return false
+end
+
+--Added by Dispatch
+function vr.pal.isLoHReady()
+	if vr.api.IsSpellReady("Lay on Hands") then
+		return true;
+	end
+	return false;
+end
+
 --endregion ---- CLASS
+
+
 
 --region    ---- ROTATIONS
 

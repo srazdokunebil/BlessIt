@@ -452,12 +452,19 @@ function BlessIt_Initialize()
 
     vr.log.Log('Slash commands loaded.')
     vr.api.Target = "";
-    BlessIt_Initialized = true;
+
     vr.api.GroupSync();
 
-
+    vr.pal.lastCastHoJ = GetTime()
+    vr.pal.lastCastBoP = GetTime()
+    vr.pal.lastBoPTarget = ''
+    vr.pal.lastCastLoH = GetTime()
+    vr.pal.lastLoHTarget = ''
+    vr.pal.lastCastBoF = GetTime()
+    vr.pal.lastBoFTarget = ''
     vr.api.LastSpellCast = 0
 
+    BlessIt_Initialized = true;
 end
 
 --[ OnLoad ]--
@@ -615,18 +622,18 @@ function vr.pal.bof()
     --vr.log.Log("invoking vr.pal.bof()")
     if vr.api.CheckWoWVersion("vanilla") then
         if true
-            and isBoFReady() then
+            and vr.pal.isBoFReady() then
                 SpellStopCasting()
-                castBlessingOfFreedom()
+                vr.pal.castBlessingOfFreedom()
                 vr.pal.lastCastBoF = GetTime()
                 vr.pal.lastBoFTarget = UnitName('target')
             end
 
     elseif vr.api.CheckWoWVersion("twow") then
         if true
-            and isBoFReady() then
+            and vr.pal.isBoFReady() then
                 SpellStopCasting()
-                castBlessingOfFreedom()
+                vr.pal.castBlessingOfFreedom()
                 vr.pal.lastCastBoF = GetTime()
                 vr.pal.lastBoFTarget = UnitName('target')
             end
@@ -638,13 +645,13 @@ function vr.pal.bop()
     --vr.log.Log("invoking vr.pal.bop()")
     if vr.api.CheckWoWVersion("vanilla") then
         if true
-            and isBoPReady()
-            and not isBlessingOfProtectionActive() then
+            and vr.pal.isBoPReady()
+            and not vr.pal.isBlessingOfProtectionActive() then
                 if vr.api.HasDebuff("target", "Spell_Holy_RemoveCurse") then
-                    vr.log.Report('Forbearance', 'Cannot cast BOP on ' .. UnitName('target') .. '!  Has Forbearance.', 2000)
+                    vr.log.Ability('Forbearance', 'Cannot cast BOP on ' .. UnitName('target') .. '!  Has Forbearance.', 2000)
                 else
                     SpellStopCasting()
-                    castBlessingOfProtection()
+                    vr.pal.castBlessingOfProtection()
                     vr.pal.lastCastBoP = GetTime()
                     vr.pal.lastBoPTarget = UnitName('target')
                     return
@@ -653,13 +660,13 @@ function vr.pal.bop()
 
     elseif vr.api.CheckWoWVersion("twow") then
         if true
-            and isBoPReady()
-            and not isBlessingOfProtectionActive() then
+            and vr.pal.isBoPReady()
+            and not vr.pal.isBlessingOfProtectionActive() then
                 if vr.api.HasDebuff("target", "Spell_Holy_RemoveCurse") then
-                    vr.log.Report('Forbearance', 'Cannot cast BOP on ' .. UnitName('target') .. '!  Has Forbearance.', 2000)
+                    vr.log.Ability('Forbearance', 'Cannot cast BOP on ' .. UnitName('target') .. '!  Has Forbearance.', 2000)
                 else
                     SpellStopCasting()
-                    castBlessingOfProtection()
+                    vr.pal.castBlessingOfProtection()
                     vr.pal.lastCastBoP = GetTime()
                     vr.pal.lastBoPTarget = UnitName('target')
                     return
@@ -688,9 +695,9 @@ function vr.pal.hoj()
 
         --SpellStopCasting()
 
-        if isHammerOfJusticeUsable() and isHammerOfJusticeReady() then
+        if vr.pal.isHammerOfJusticeUsable() and vr.pal.isHammerOfJusticeReady() then
             SpellStopCasting()
-            castHammerOfJustice()
+            vr.pal.castHammerOfJustice()
             vr.log.Say('HoJ on ' .. UnitName('target') .. '!')
             vr.pal.lastCastHoJ = GetTime()
         else
@@ -700,7 +707,7 @@ function vr.pal.hoj()
             if vr.api.MilliSecondsSince(vr.pal.lastCastHoJ) > 2000 then
                 vr.api.ReportCD(ABILITY_HAMMER_OF_JUSTICE, 2000)
             end
-            
+
         end
 
     elseif vr.api.CheckWoWVersion('twow') then
@@ -720,9 +727,9 @@ function vr.pal.hoj()
 
         --SpellStopCasting()
 
-        if isHammerOfJusticeUsable() and isHammerOfJusticeReady() then
+        if vr.pal.isHammerOfJusticeUsable() and vr.pal.isHammerOfJusticeReady() then
             SpellStopCasting()
-            castHammerOfJustice()
+            vr.pal.castHammerOfJustice()
             vr.log.Say('HoJ on ' .. UnitName('target') .. '!')
             vr.pal.lastCastHoJ = GetTime()
         else
@@ -732,43 +739,8 @@ function vr.pal.hoj()
             if vr.api.MilliSecondsSince(vr.pal.lastCastHoJ) > 2000 then
                 vr.api.ReportCD(ABILITY_HAMMER_OF_JUSTICE, 2000)
             end
-            
+
         end
-
-    end
-end
-
----[ vr.pal.holyshock ]--------------------------------------------------------
-function vr.pal.holyshock()
-    if vr.api.CheckWoWVersion("vanilla") then
-        if true
-            and isHolyShockReady()
-            and isDivineFavorReady()
-            and not isDivineFavorActive() then
-                SpellStopCasting()
-                castDivineFavor()
-            end
-        --if vr.api.GetDistance() <= 20
-        if true
-            and isHolyShockReady() then
-                SpellStopCasting()
-                castHolyShock()
-            end
-
-    elseif vr.api.CheckWoWVersion("twow") then
-        if true
-            and isHolyShockReady()
-            and isDivineFavorReady()
-            and not isDivineFavorActive() then
-                SpellStopCasting()
-                castDivineFavor()
-            end
-        --if vr.api.GetDistance() <= 20
-        if true
-            and isHolyShockReady() then
-                SpellStopCasting()
-                castHolyShock()
-            end
 
     end
 end
@@ -778,18 +750,18 @@ function vr.pal.loh()
     --vr.log.Log("invoking vr.pal.loh()")
     if vr.api.CheckWoWVersion("vanilla") then
         if true
-            and isLoHReady() then
+            and vr.pal.isLoHReady() then
                 SpellStopCasting()
-                castLayOnHands()
+                vr.pal.castLayOnHands()
                 vr.pal.lastCastLoH = GetTime()
                 vr.pal.lastLoHTarget = UnitName('target')
             end
 
     elseif vr.api.CheckWoWVersion("twow") then
         if true
-            and isLoHReady() then
+            and vr.pal.isLoHReady() then
                 SpellStopCasting()
-                castLayOnHands()
+                vr.pal.castLayOnHands()
                 vr.pal.lastCastLoH = GetTime()
                 vr.pal.lastLoHTarget = UnitName('target')
             end
@@ -851,7 +823,7 @@ function vr.pal.SlashCommands(msg)
         end
         if arg1 == "holyshock" then
             --vr.log.Log(vr.log.Format1Var("[1 args]"," /arg1:", arg1))
-            --vr.log.Log("executing holyshock script")
+            vr.log.Log("executing holyshock script")
             vr.pal.holyshock();
             return;
         end

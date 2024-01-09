@@ -557,6 +557,7 @@ end
 function vr.api.ReportCD(spellname, delta)
     --vr.log.Debug('Invoking vr.api.ReportCD(' .. spellname ..','.. delta .. ')')
     local min, sec
+    --local ttcs = vr.api.TruncateMilliseconds(vr.api.IsSpellReadyIn(spellname))
     local ttcs = vr.api.TruncateMilliseconds(vr.api.IsSpellReadyIn(spellname))
 
     --print(tostring(spellname) .. ' is ready in ' .. tostring(vr.api.IsSpellReadyIn(spellname)))
@@ -784,92 +785,6 @@ end
 
 -- syncs distance display in class General Options panel
 function vr.api.SyncDistance()
-    --with wr
-    -- if vr.va.isRunning then
-    --     if UnitExists("target") then
-    --         --GeneralOptionsFrame_Distance:SetText(vr.va.distance);
-    --         --vr.api.XMLSetText("GeneralOptionsFrame", "_Distance", vr.va.distance)
-    --         return;
-    --     else
-    --         --GeneralOptionsFrame_Distance:SetText("No Target");
-    --         --vr.api.XMLSetText("GeneralOptionsFrame", "_Distance", "No Target")
-    --         return;
-    --     end
-    -- end
-
-    -- without wr
-    -- if vr.class.talent == vr.talents.DRU then
-    --     local distance = vr.dru.GetDistance();
-    --     if UnitExists("target") then
-    --         vr.api.XMLSetText("GeneralOptionsFrame", "_Distance", distance)
-    --     else
-    --         vr.api.XMLSetText("GeneralOptionsFrame", "_Distance", "No Target")
-    --     end
-
-    -- elseif vr.class.talent == vr.talents.HUNBM or vr.class.talent == vr.talents.HUNMM then
-    --     local distance = vr.hun.GetDistance();
-    --     if UnitExists("target") then
-    --         vr.api.XMLSetText("GeneralOptionsFrame", "_Distance", distance)
-    --     else
-    --         vr.api.XMLSetText("GeneralOptionsFrame", "_Distance", "No Target")
-    --     end
-
-    -- elseif vr.class.talent == vr.talents.MAGFIRE or vr.class.talent == vr.talents.MAGFROST then
-    --     local distance = vr.mag.GetDistance();
-    --     if UnitExists("target") then
-    --         vr.api.XMLSetText("GeneralOptionsFrame", "_Distance", distance)
-    --     else
-    --         vr.api.XMLSetText("GeneralOptionsFrame", "_Distance", "No Target")
-    --     end
-
-    -- elseif vr.class.talent == vr.talents.PALHOLY or vr.class.talent == vr.talents.PALPROT or vr.class.talent == vr.talents.PALRET then
-    --     local distance = vr.pal.GetDistance();
-    --     if UnitExists("target") then
-    --         vr.api.XMLSetText("GeneralOptionsFrame", "_Distance", distance)
-    --     else
-    --         vr.api.XMLSetText("GeneralOptionsFrame", "_Distance", "No Target")
-    --     end
-
-    -- elseif vr.class.talent == vr.talents.PRIHOLY or vr.class.talent == vr.talents.PRISHADOW then
-    --     local distance = vr.pri.GetDistance();
-    --     if UnitExists("target") then
-    --         vr.api.XMLSetText("GeneralOptionsFrame", "_Distance", distance)
-    --     else
-    --         vr.api.XMLSetText("GeneralOptionsFrame", "_Distance", "No Target")
-    --     end
-
-    -- elseif vr.class.talent == vr.talents.ROGCOMBAT or vr.class.talent == vr.talents.ROGSUB then
-    --     local distance = vr.rog.GetDistance();
-    --     if UnitExists("target") then
-    --         vr.api.XMLSetText("GeneralOptionsFrame", "_Distance", distance)
-    --     else
-    --         vr.api.XMLSetText("GeneralOptionsFrame", "_Distance", "No Target")
-    --     end
-
-    -- elseif vr.class.talent == vr.talents.SHMHEAL or vr.class.talent == vr.talents.SHMRDPS or vr.class.talent == vr.talents.SHMTANK then
-    --     local distance = vr.shm.GetDistance();
-    --     if UnitExists("target") then
-    --         vr.api.XMLSetText("GeneralOptionsFrame", "_Distance", distance)
-    --     else
-    --         vr.api.XMLSetText("GeneralOptionsFrame", "_Distance", "No Target")
-    --     end
-
-    -- elseif vr.class.talent == vr.talents.WAR then
-    --     local distance = vr.war.GetDistance();
-    --     if UnitExists("target") then
-    --         vr.api.XMLSetText("GeneralOptionsFrame", "_Distance", distance)
-    --     else
-    --         vr.api.XMLSetText("GeneralOptionsFrame", "_Distance", "No Target")
-    --     end
-
-    -- elseif vr.class.talent == vr.talents.WLKDSR or vr.class.talent == vr.talents.WLKSMR then
-    --     local distance = vr.rog.GetDistance();
-    --     if UnitExists("target") then
-    --         vr.api.XMLSetText("GeneralOptionsFrame", "_Distance", distance)
-    --     else
-    --         vr.api.XMLSetText("GeneralOptionsFrame", "_Distance", "No Target")
-    --     end
-    -- end
 
 end
 
@@ -961,7 +876,6 @@ function vr.api.CreateMANFrameAndElements()
         end
 
     end
-    print('IS THIS THING ON???')
 end
 
 ---[ vr.api.RefreshMANFrameAndElements ]---------------------------------------

@@ -3,9 +3,12 @@ Textures = {}
 Textures = {
     -- effects
     ['Blessing of Freedom']                 = 'Spell_Holy_SealOfValor',
+    ['Blessing of Protection']              = 'Spell_Holy_SealOfProtection',
+    ['Divine Favor']                        = 'Spell_Holy_Heal',
     ['Elixir of Giants']                    = 'INV_Potion_61',
     ['Fire Shield']                         = 'Spell_Fire_Immolation',
     ['Free Action']                         = 'INV_Potion_04',
+    ['Holy Shock']                          = 'Spell_Holy_SearingLight',
     ['Invulnerability']                     = 'Spell_Holy_DivineIntervention',
     ['Juju Chill']                          = 'INV_Misc_MonsterScales_09',
     ['Juju Ember']                          = 'INV_Misc_MonsterScales_15',
