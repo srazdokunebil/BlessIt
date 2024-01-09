@@ -1,0 +1,73 @@
+-- Talents:
+
+-- Druid.
+--DRUID_RDPS = "DRUID_RDPS"
+--DRUID_MDPS = "DRUID_MDPS"
+--DRUID_HEAL = "DRUID_HEAL"
+--DRUID_TANK = "DRUID_TANK"
+
+-- Hunter.
+--HUNTER_MARKSMAN = "HUNTER_MM"
+
+-- Mage.
+--MAGE_DEEP_FROST = "MAGE_DEEP_FROST"
+--MAGE_ARCANE_FROST = "MAGE_ARCANE_FROST"
+--MAGE_FIRE = "MAGE_FIRE"
+
+
+--PRIEST_POWER_INFUSION = "PRIEST_POWER_INFUSION"
+
+-- Rogue.
+--ROGUE_DAGGER = "ROGUE_DAGGER"
+--ROGUE_SWORD = "ROGUE_SWORD"
+
+-- Shaman
+--SHAMAN_ELEMENTAL = "SHAMAN_ELEMENTAL"
+--SHAMAN_RESTO = "SHAMAN_RESTO"
+
+-- Warlock.
+--WARLOCK_DSR = "WARLOCK_DSR"
+--WARLOCK_SMR = "WARLOCK_SMR"
+
+-- Warrior.
+--WARRIOR_DEEP_PROT = "WARRIOR_DEEP_PROT"
+--WARRIOR_FURY = "WARRIOR_FURY"
+--WARRIOR_FURY_PROT = "WARRIOR_FURY_PROT"
+
+vr.talents = {
+    -- Druid
+    DRU = "DRU",
+
+    -- Hunter
+    HUNBM= "HUNBM",
+    HUNMM = "HUNMM",
+
+    -- Mage
+    MAGFIRE = "MAGFIRE",
+    MAGFROST = "MAGFROST",
+
+    -- Paladin.
+    PALHOLY = "PALHOLY",
+    PALPROT = "PALPROT",
+    PALRET = "PALRET",
+
+    -- Priest
+    PRIHOLY = "PRIHOLY",
+    PRISHADOW = "PRISHADOW",
+
+    -- Rogue
+    ROGCOMBAT = "ROGCOMBAT",
+    ROGSUB = "ROGSUB",
+
+    -- Shaman
+    SHMHEAL = "SHMHEAL",
+    SHMRDPS = "SHMRDPS",
+    SHMTANK = "SHMTANK",
+
+    -- Warlock
+    WLKDSR = "WLKDSR",
+    WLKSMR = "WLKSMR",
+
+    -- Warrior
+    WAR = "WAR",
+}
