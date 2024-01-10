@@ -132,7 +132,7 @@ function vr.pal.OnEvent(event, arg1)
             return
         end
 
-        local _,_,name = string.find(arg1, 'Your Lay on Hand heals (.+) for (.+).')
+        local _,_,name = string.find(arg1, 'Your Lay on Hands critically heals (.+) for (.+).')
         if name then
             -- have you cast loh in the 2000 milliseconds?
             if vr.api.MilliSecondsSince(vr.pal.lastCastLoH) < 2000 then
