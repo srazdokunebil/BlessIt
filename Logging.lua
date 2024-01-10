@@ -187,7 +187,7 @@ function vr.log.Debug(a)
     --print('console == ' .. VRGO.console)
     --print('playerclass == ' .. VRGO.playerclass)
 
-    if not GOg("WLDebug") then
+    if true then
         return;
     end
 

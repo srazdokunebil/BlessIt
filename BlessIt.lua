@@ -27,10 +27,6 @@ local function setTimer(duration, func)
 end
 
 local BlessIt_Initialized = false;
-local BlessIt_InitGeneralOptionsTab = false;
-local BlessIt_ShowGeneralOptionsFrameStart = false;
-local _initGeneralOptionsTab = GetTime();
-
 
 function print(a)
     ChatFrame4:AddMessage(a)
@@ -442,12 +438,6 @@ vr.pal={};
 --[ Initialization ]--
 function BlessIt_Initialize()
 
-    --BlessIt_SetConfiguration(false);
-
-    -- BlessIt_VERSION = "1.0.6a"
-    -- BlessItConfig_Text_Version:SetText("BlessIt v" .. BlessIt_VERSION)
-    -- VR_WOWVERSION = vr.api.GetWoWVersion();
-
     SlashCmdList["BLESSIT"] = vr.pal.SlashCommands
 
     vr.log.Log('Slash commands loaded.')
@@ -484,129 +474,13 @@ end
 function BlessIt_OnEvent(event, arg1)
 
     if BlessIt_Initialized then
-
-        -- Unpack and echo every event if WLAllEvents is checked
-        -- if GOg("WLAllEvents") then
-        --     vr.log.UnpackEvent(event, arg1);
-        -- end
-
         vr.pal.OnEvent(event, arg1);
     end
 
-    if false then
-        --
-    elseif (event == "CHARACTER_POINTS_CHANGED") then
-        --vr.api.SyncClassData()
+    -- if (event == "ADDON_LOADED") then
+    --     BlessIt_Initialize();
 
-    elseif event == "CHAT_MSG_SPELL_CREATURE_VS_CREATURE_DAMAGE"
-        or event == "CHAT_MSG_SPELL_HOSTILEPLAYER_BUFF"
-        or event == "CHAT_MSG_SPELL_CREATURE_VS_CREATURE_BUFF"
-        or event == "CHAT_MSG_SPELL_HOSTILEPLAYER_DAMAGE"  then
-            -- Check to see if enemy casts spell
-            for mob, spell in string.gfind(arg1, CHAT_CAST) do
-                vr.api.EnemySpellcast = spell
-                if mob == UnitName("target")
-                    and UnitCanAttack("player", "target")
-                    and mob ~= spell then
-                        vr.api.InterruptSpell = GetTime()
-                        vr.log.Debug(UnitName("target") .. " has begun casting " .. spell)
-                        return
-                end
-            end
-
-    elseif (event == "ADDON_LOADED") then
-        BlessIt_Initialize();
-
-    elseif event == "PARTY_MEMBERS_CHANGED" then
-        --vr.api.GroupSync();
-
-    elseif (event == "PLAYER_TARGET_CHANGED") then
-
-    elseif event == "PLAYER_AURAS_CHANGED" then
-        -- Check to see if mounted
-        if UnitIsMounted("player") then
-            vr.api.Mount = true
-        else
-            vr.api.Mount = false
-        end
-
-    -- elseif event == "CHAT_MSG_SPELL_PERIODIC_SELF_BUFFS" then
-    --     if arg1 == CHAT_GAINED_FLURRY_FURY then
-    --         vr.war.FlurryStart = GetTime()
-    --     end
-
-    elseif event == "CHAT_MSG_SPELL_CREATURE_VS_SELF_DAMAGE" and not (vr.wr.isRunning and GOg("SuppressBlessItLogging")) then --echo damage to self event back to WLconsole
-        vr.api.CHAT_MSG_SPELL_CREATURE_VS_SELF_DAMAGE()
-
-    elseif event == "CHAT_MSG_SPELL_PERIODIC_CREATURE_DAMAGE" and not (vr.wr.isRunning and GOg("SuppressBlessItLogging")) then --echo damage event back to WLconsole
-        vr.api.CHAT_MSG_SPELL_PERIODIC_CREATURE_DAMAGE()
-
-    elseif event == "CHAT_MSG_SPELL_PERIODIC_SELF_BUFFS" and not (vr.wr.isRunning and GOg("SuppressBlessItLogging")) then --echo damage event back to WLconsole
-        vr.api.CHAT_MSG_SPELL_PERIODIC_SELF_BUFFS()
-
-    elseif event == "CHAT_MSG_SPELL_SELF_BUFF" and not (vr.wr.isRunning and GOg("SuppressBlessItLogging")) then --echo heals event to WLconsole
-        vr.api.CHAT_MSG_SPELL_SELF_BUFF()
-
-    elseif event == "CHAT_MSG_SPELL_SELF_DAMAGE" and not (vr.wr.isRunning and GOg("SuppressBlessItLogging")) then --echo damage event back to WLconsole
-        vr.api.CHAT_MSG_SPELL_SELF_DAMAGE()
-
-    elseif event == "SPELLCAST_FAILED" then
-        vr.api.SPELLCAST_FAILED()
-
-    elseif event == "COMBAT_LOG_EVENT_UNFILTERED" then
-        vr.api.COMBAT_LOG_EVENT_UNFILTERED()
-
-    elseif event == "CHAT_MSG_SPELL_FAILED_LOCALPLAYER" then
-        vr.api.CHAT_MSG_SPELL_FAILED_LOCALPLAYER()
-
-    elseif event == "PLAYER_REGEN_DISABLED" then
-        vr.api.Combat = true
-        vr.api.CombatStart = GetTime()
-        vr.api.CombatTotal = 0
-        if not vr.api.AttackStart then
-            vr.api.AttackEnd = nil
-            vr.api.AttackStart = vr.api.CombatStart
-        end
-
-    elseif event == "PLAYER_REGEN_ENABLED" then
-        vr.api.CombatEnd = GetTime()
-        vr.api.Combat = nil
-        vr.api.BackstabBugged = false
-        -- for slot = 1, 18 do
-        --    local name = CheckCooldown(slot)
-        --    if name then
-        --        Print(name.." "..CHAT_IS_ON_CD_FURY)
-        --    end
-        -- end
-
-    elseif event == "PLAYER_ENTER_COMBAT" then
-        vr.api.Attack = true
-        vr.api.AttackEnd = nil
-        vr.api.AttackStart = GetTime()
-        vr.war.HaveNotSunderedYet = true
-        --vr.war.tankopen(true)
-        if vr.api.HasBuff("player", 'Flurry') then
-            vr.war.FlurryStart = GetTime()
-        end
-
-    elseif event == "PLAYER_LEAVE_COMBAT" then
-        vr.api.Attack = nil
-        if vr.api.AttackStart then
-            vr.api.AttackEnd = GetTime()
-            vr.api.CombatTotal = vr.api.CombatTotal + (vr.api.AttackEnd - vr.api.AttackStart)
-            if vr.war.FlurryStart then
-                vr.war.FlurryCombatTotal = vr.war.FlurryCombatTotal + (vr.api.AttackEnd - vr.war.FlurryStart)
-                vr.war.FlurryStart = nil
-            end
-        end
-
-    elseif event == "PLAYER_ENTERING_WORLD" then
-        --setTimer(0.5, vr.api.SyncClassDataWorld)
-
-    elseif event == "RAID_ROSTER_UPDATE" then
-        --vr.api.GroupSync();
-
-    elseif (event == "VARIABLES_LOADED") then
+    if (event == "VARIABLES_LOADED") then
         if not BlessIt_Initialized then
             BlessIt_Initialize();
         end
@@ -682,8 +556,7 @@ function vr.pal.hoj()
 
         if not UnitExists('target') or not UnitCanAttack('player', 'target') then
             -- if no viable target, report time until ready
-            --print('one')
-            vr.api.ReportCD(ABILITY_HAMMER_OF_JUSTICE, 2000)
+            vr.api.ReportCD('Hammer of Justice', 2000)
             return false;
         elseif UnitOnTaxi('player') then
             vr.log.Debug('You are on a taxi.')
@@ -693,8 +566,6 @@ function vr.pal.hoj()
             return false;
         end
 
-        --SpellStopCasting()
-
         if vr.pal.isHammerOfJusticeUsable() and vr.pal.isHammerOfJusticeReady() then
             SpellStopCasting()
             vr.pal.castHammerOfJustice()
@@ -702,20 +573,16 @@ function vr.pal.hoj()
             vr.pal.lastCastHoJ = GetTime()
         else
             -- if not ready, report time until ready
-            --print('hello')
-            --print('two')
             if vr.api.MilliSecondsSince(vr.pal.lastCastHoJ) > 2000 then
-                vr.api.ReportCD(ABILITY_HAMMER_OF_JUSTICE, 2000)
+                vr.api.ReportCD('Hammer of Justice', 2000)
             end
-
         end
 
     elseif vr.api.CheckWoWVersion('twow') then
 
         if not UnitExists('target') or not UnitCanAttack('player', 'target') then
             -- if no viable target, report time until ready
-            --print('one')
-            vr.api.ReportCD(ABILITY_HAMMER_OF_JUSTICE, 2000)
+            vr.api.ReportCD('Hammer of Justice', 2000)
             return false;
         elseif UnitOnTaxi('player') then
             vr.log.Debug('You are on a taxi.')
@@ -725,8 +592,6 @@ function vr.pal.hoj()
             return false;
         end
 
-        --SpellStopCasting()
-
         if vr.pal.isHammerOfJusticeUsable() and vr.pal.isHammerOfJusticeReady() then
             SpellStopCasting()
             vr.pal.castHammerOfJustice()
@@ -734,12 +599,9 @@ function vr.pal.hoj()
             vr.pal.lastCastHoJ = GetTime()
         else
             -- if not ready, report time until ready
-            --print('hello')
-            --print('two')
             if vr.api.MilliSecondsSince(vr.pal.lastCastHoJ) > 2000 then
-                vr.api.ReportCD(ABILITY_HAMMER_OF_JUSTICE, 2000)
+                vr.api.ReportCD('Hammer of Justice', 2000)
             end
-
         end
 
     end
@@ -819,12 +681,6 @@ function vr.pal.SlashCommands(msg)
             --vr.log.Log(vr.log.Format1Var("[1 args]"," /arg1:", arg1))
             --vr.log.Log("executing hoj script")
             vr.pal.hoj();
-            return;
-        end
-        if arg1 == "holyshock" then
-            --vr.log.Log(vr.log.Format1Var("[1 args]"," /arg1:", arg1))
-            vr.log.Log("executing holyshock script")
-            vr.pal.holyshock();
             return;
         end
         if arg1 == "loh" then
